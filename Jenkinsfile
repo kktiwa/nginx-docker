@@ -1,6 +1,7 @@
 pipeline {
 
  environment {
+    IMAGE_NAME = 'nginx-docker'
     FULL_IMAGE_NAME = 'cba/nginx-docker'
   }
 
@@ -23,6 +24,12 @@ pipeline {
               sh 'docker push ${FULL_IMAGE_NAME}:${GIT_COMMIT}'
           }
         }
+  }
+
+  stage('Docker Deploy') {
+    steps {
+      sh 'docker run --name nginx-demo -d -p 8080:80 ${IMAGE_NAME}'
+    }
   }
 
   post {
