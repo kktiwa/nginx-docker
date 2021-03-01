@@ -14,6 +14,12 @@ pipeline {
     }
   }
 
+  stage('Docker Test') {
+      steps {
+        // scripts to run tests
+      }
+  }
+
   stage('Docker Push') {
         when {
           branch 'master'
@@ -27,6 +33,9 @@ pipeline {
   }
 
   stage('Docker Deploy') {
+     when {
+       branch 'master'
+     }
     steps {
       sh 'docker run --name nginx-demo -d -p 8080:80 ${FULL_IMAGE_NAME}:latest'
     }
